@@ -6,7 +6,7 @@
 }
 /** Style du canvas "visuel" gip **/
 #gipCanvas {
-	background-color: #61B4CF;
+	background-color: #606060;
 	position: absolute;
 }
 /** Style du canvas "physique" box2d **/
