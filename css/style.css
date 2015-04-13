@@ -12,5 +12,5 @@
 /** Style du canvas "physique" box2d **/
 #box2dCanvas {
 	position: absolute;
-	opacity: 0;
+	opacity: 1;
 }
