@@ -1,0 +1,16 @@
+/** Style appliqué sur la div contenant le canvas **/
+#divCanvas {
+	width: 800px;
+	height: 600px;
+	margin: auto;
+}
+/** Style du canvas "visuel" gip **/
+#gipCanvas {
+	background-color: #61B4CF;
+	position: absolute;
+}
+/** Style du canvas "physique" box2d **/
+#box2dCanvas {
+	position: absolute;
+	opacity: 0;
+}
