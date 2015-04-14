@@ -22,6 +22,8 @@
 		prepareStage();		// préparer l'environnement graphique
 		prepareBox2d();		// préparer l'environnement physique
 
+		player = new Player(stage, 100, 580); // créer le player
+
 		startTicker(30);	// lancer le ticker
 	};
 
