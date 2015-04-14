@@ -13,16 +13,33 @@
 	var world;		// world box2d
 	var canvasWidth, canvasHeight;	// dimensions du canvas
 
+	// Gestion des événements claviers
+	var keys = [];
+
+	// Elements physiques et dynamiques
+	var player;
+
 	// Initialisation
 	$(document).ready(function() {
 		init();
 	});
 
 	this.init = function() {
+		// Préparation des environnements
 		prepareStage();		// préparer l'environnement graphique
 		prepareBox2d();		// préparer l'environnement physique
 
-		player = new Player(stage, 100, 580); // créer le player
+		// Instancier le Player
+		player = new Player(stage, 100, 580);
+
+		// Ajouter les listeners d'événements
+		window.addEventListener('keydown', handleKeyDown);
+		window.addEventListener('keyup', handleKeyUp);
+
+		// Désactiver les scrollings vertical lors d'un appui sur les touches directionnelles "haut" et "bas"
+		document.onkeydown = function(event) {
+			return event.keyCode != 38 && event.keyCode != 40;
+		};
 
 		startTicker(30);	// lancer le ticker
 	};
@@ -68,6 +85,10 @@
 
 	// Mise à jour de l'environnement
 	this.tick = function() {
+
+		// Gérer les interactions
+		handleInteractions();
+
 		// box2d
 		world.Step(1 / 15,  10, 10);
 		world.DrawDebugData();
@@ -75,6 +96,35 @@
 		
 		// easelJS
 		stage.update();
+	}
+
+	/** Gestion clavier **/
+		// appuyer sur une touche
+	this.handleKeyDown = function(evt) {
+		keys[evt.keyCode] = true;
+	}
+
+	// relacher une touche
+	this.handleKeyUp = function(evt) {
+		keys[evt.keyCode] = false;
+	}
+	
+	// Gérer les interactions
+	this.handleInteractions = function() {
+		// touche "haut"
+		if (keys[38]) {
+			player.jump();
+		}
+		// touches "gauche" et "droite"
+		if (keys[37]) {
+			player.moveLeft();
+		} else if (keys[39]) {
+			player.moveRight();
+		} else if(keys[40]) {
+			player.duck();
+		} else {
+			player.stand();
+		}
 	}
 
 }());

@@ -70,6 +70,50 @@
 			this.stage.addChild(sprite);
 			// Assigner le sprite à la propriété skin
 			this.skin = sprite;
+		},
+
+		/**
+		 * Passer en position immobile
+		 */
+		stand: function() {
+			this.skin.gotoAndPlay('stand');
+		},
+
+		/**
+		 * Se déplacer vers la droite
+		 */
+		moveRight: function() {
+			this.skin.scaleX = 1;
+			if (this.skin.currentAnimation != 'walk') {
+				this.skin.gotoAndPlay('walk');
+			}
+			this.skin.x += 10;
+		},
+
+		/**
+		 * Se déplacer vers la gauche
+		 */
+		moveLeft: function() {
+			this.skin.scaleX = -1;
+			if (this.skin.currentAnimation != 'walk') {
+				this.skin.gotoAndPlay('walk');
+			}
+			this.skin.x -= 10;
+		},
+
+		/**
+		 * Sauter
+		 */
+		jump: function() {
+			this.skin.gotoAndPlay('jump');
+			this.skin.y -= 10;
+		},
+
+		/**
+		 * S'accroupir
+		 */
+		duck: function() {
+			this.skin.gotoAndPlay('duck');
 		}
 
 	};
