@@ -163,7 +163,7 @@
 		 * @param * userData : propriétés spécifiques du player
 		 * @return le player dans le monde 2dbox
 		 */
-		createPlayer : function(world, x, y, radius, userData) {
+/**		createPlayer : function(world, x, y, radius, userData) {
 			// Créer le body player
 			var playerObject = this.createBall(world, x, y, radius, false, userData);
 			playerObject.SetDensity(2);
@@ -184,7 +184,7 @@
 			playerObject.GetBody().CreateFixture(footDef);
 			
 			return playerObject;
-		},
+		}, **/
 		
 		/**
 		 * Créer une liaison de type "Souris"

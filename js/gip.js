@@ -30,7 +30,7 @@
 		prepareBox2d();		// préparer l'environnement physique
 
 		// Instancier le Player
-		player = new Player(stage, 100, 580);
+		player = new Player(world, stage, SCALE, 100, 350);
 
 		// Ajouter les listeners d'événements
 		window.addEventListener('keydown', handleKeyDown);
@@ -86,6 +86,11 @@
 	// Mise à jour de l'environnement
 	this.tick = function() {
 
+		player.update();
+
+		// Ajouter le listener de collisions
+		addContactListener();
+
 		// Gérer les interactions
 		handleInteractions();
 
@@ -116,14 +121,64 @@
 			player.jump();
 		}
 		// autres touches
-		if (keys[37]) {	// touche gauche
+		if (keys[40]) {
+			player.duck();	// touche bas
+		} else if (keys[37]) {	// touche gauche
 			player.moveLeft();
 		} else if (keys[39]) { // touche droite
 			player.moveRight();
-		} else if(keys[40]) { // touche bas
-			player.duck();
 		} else {
 			player.stand(); // aucune touche
+		}
+	}
+
+	// Ajout du listener sur les collisions
+	this.addContactListener = function() {
+		var b2Listener = Box2D.Dynamics.b2ContactListener;
+		//Add listeners for contact
+		var listener = new b2Listener;
+		
+		// Entrée en contact
+		listener.BeginContact = function(contact) {
+			var obj1 = contact.GetFixtureA();
+			var obj2 = contact.GetFixtureB();
+			if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+				if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {					
+					player.jumpContacts ++;	// le joueur entre en contact avec une plate-forme de saut
+				}
+			}
+		}
+		
+		// Fin de contact
+		listener.EndContact = function(contact) {
+			var obj1 = contact.GetFixtureA();
+			var obj2 = contact.GetFixtureB();
+			if (isFootPlayer(obj1) || isFootPlayer(obj2)) {
+				if (isGroundOrBox(obj1) || isGroundOrBox(obj2)) {
+					player.jumpContacts --;	// le joueur quitte une plate-forme de saut
+				}
+			}
+		}
+		listener.PostSolve = function(contact, impulse) {
+			// PostSolve
+		}
+		listener.PreSolve = function(contact, oldManifold) {
+		    // PreSolve
+		}
+		world.SetContactListener(listener);
+	}
+
+	// Déterminer si l'objet physique est les pieds du player
+	this.isFootPlayer = function(object) {
+		if (object != null && object.GetUserData() != null) {
+			return object.GetUserData() == 'footPlayer';
+		}
+	}
+
+	// Déterminer si l'objet physique est le sol ou une box
+	this.isGroundOrBox = function(object) {
+		if (object != null && object.GetUserData() != null) {
+			return (object.GetUserData() == 'box' || object.GetUserData() == 'ground' || object.GetUserData() == 'glue');
 		}
 	}
 
