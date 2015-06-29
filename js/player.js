@@ -18,11 +18,20 @@
 	Player.prototype = {
 		
 		/**
-		 * Dessiner le Player
+		 * Initialiser le Player
 		 * @param Number x : position x du joueur
 		 * @param Number y : position y du joueur
 		 */
 		init: function(x, y) {
+			this.skin = this.createGraphics(x, y);
+		},
+
+		/**
+		 * Dessiner le Player
+		 * @param Number x : position x du joueur
+		 * @param Number y : position y du joueur
+		 */
+		createGraphics: function(x, y) {
 			// Préparer les données de la Spritesheet
 			var data = {
 				// image | spritesheet
@@ -69,7 +78,7 @@
 			// Ajouter le Sprite au Stage
 			this.stage.addChild(sprite);
 			// Assigner le sprite à la propriété skin
-			this.skin = sprite;
+			return sprite;
 		},
 
 		/**
