@@ -116,12 +116,12 @@
 			player.jump();
 		}
 		// autres touches
-		if (keys[37]) {	// touche gauche
+		if (keys[40]) {
+			player.duck(); // touche bas
+		} else if (keys[37]) { // touche gauche
 			player.moveLeft();
-		} else if (keys[39]) { // touche droite
+		} else if(keys[39]) { // touche droite
 			player.moveRight();
-		} else if(keys[40]) { // touche bas
-			player.duck();
 		} else {
 			player.stand(); // aucune touche
 		}
